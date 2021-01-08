@@ -1,7 +1,11 @@
-const IN_PRODUCTION = true || process.env.NODE_ENV === 'production'
+const IN_PRODUCTION = process.env.NODE_ENV === 'production'
 
 module.exports = {
 	plugins: [
+		require('postcss-exclude-files').default({
+			filter:  './src/styles/common/tailwind-dev.css',
+			plugins: [],
+		}),
 		require('tailwindcss')({}),
 		require('autoprefixer')({}),
 		IN_PRODUCTION && require('@fullhuman/postcss-purgecss')({
