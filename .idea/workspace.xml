@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7ce1cf1a-0595-4761-bc04-34cc9b43c2bd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/helpers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Timer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Timer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +37,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/styles/common" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/helpers" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
@@ -42,13 +45,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="L:\Work\_GIT\GitHub\NodeJs\apps\counter-vue\src\helpers" />
       <recent name="L:\Work\_GIT\GitHub\NodeJs\apps\counter-vue\src\styles\common" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="L:\Work\_GIT\GitHub\NodeJs\apps\counter-vue\public" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.lint">
+  <component name="RunManager" selected="npm.serve">
     <list>
       <item itemvalue="npm.serve" />
       <item itemvalue="npm.build" />
@@ -65,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1610082301963</updated>
-      <workItem from="1610082304040" duration="21895000" />
+      <workItem from="1610082304040" duration="27136000" />
     </task>
     <task id="LOCAL-00001" summary="Prepared app layout">
       <created>1610085341426</created>
@@ -130,7 +134,21 @@
       <option name="project" value="LOCAL" />
       <updated>1610104628355</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="WebStorm config">
+      <created>1610105698730</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1610105698730</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Improved TailwindCSS development performance">
+      <created>1610114802843</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1610114802843</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,6 +164,7 @@
     <MESSAGE value="Ignore package-lock.json" />
     <MESSAGE value="Added cssnano" />
     <MESSAGE value="Fix scoped styles.&#10;Important: https://vue-loader.vuejs.org/guide/scoped-css.html#child-component-root-elements" />
+    <MESSAGE value="WebStorm config" />
     <MESSAGE value="Improved TailwindCSS development performance" />
     <option name="LAST_COMMIT_MESSAGE" value="Improved TailwindCSS development performance" />
   </component>
@@ -154,30 +173,30 @@
       <screen x="0" y="0" width="1920" height="882" />
     </state>
     <state x="200" y="84" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.882@0.0.1920.882" timestamp="1610105666547" />
-    <state x="254" y="0" key="CommitChangelistDialog2" timestamp="1610104627280">
+    <state x="254" y="0" key="CommitChangelistDialog2" timestamp="1610114801462">
       <screen x="0" y="0" width="1920" height="882" />
     </state>
-    <state x="254" y="0" key="CommitChangelistDialog2/0.0.1920.882@0.0.1920.882" timestamp="1610104627280" />
-    <state x="0" y="66" key="DiffContextDialog" timestamp="1610104563983">
+    <state x="254" y="0" key="CommitChangelistDialog2/0.0.1920.882@0.0.1920.882" timestamp="1610114801462" />
+    <state x="0" y="66" key="DiffContextDialog" timestamp="1610114798934">
       <screen x="0" y="0" width="1920" height="882" />
     </state>
-    <state x="0" y="66" key="DiffContextDialog/0.0.1920.882@0.0.1920.882" timestamp="1610104563983" />
-    <state width="1413" height="190" key="GridCell.Tab.0.bottom" timestamp="1610103283206">
+    <state x="0" y="66" key="DiffContextDialog/0.0.1920.882@0.0.1920.882" timestamp="1610114798934" />
+    <state width="1413" height="116" key="GridCell.Tab.0.bottom" timestamp="1610115710709">
       <screen x="0" y="0" width="1920" height="882" />
     </state>
-    <state width="1413" height="190" key="GridCell.Tab.0.bottom/0.0.1920.882@0.0.1920.882" timestamp="1610103283206" />
-    <state width="1413" height="190" key="GridCell.Tab.0.center" timestamp="1610103283206">
+    <state width="1413" height="116" key="GridCell.Tab.0.bottom/0.0.1920.882@0.0.1920.882" timestamp="1610115710709" />
+    <state width="1413" height="116" key="GridCell.Tab.0.center" timestamp="1610115710709">
       <screen x="0" y="0" width="1920" height="882" />
     </state>
-    <state width="1413" height="190" key="GridCell.Tab.0.center/0.0.1920.882@0.0.1920.882" timestamp="1610103283206" />
-    <state width="1413" height="190" key="GridCell.Tab.0.left" timestamp="1610103283206">
+    <state width="1413" height="116" key="GridCell.Tab.0.center/0.0.1920.882@0.0.1920.882" timestamp="1610115710709" />
+    <state width="1413" height="116" key="GridCell.Tab.0.left" timestamp="1610115710709">
       <screen x="0" y="0" width="1920" height="882" />
     </state>
-    <state width="1413" height="190" key="GridCell.Tab.0.left/0.0.1920.882@0.0.1920.882" timestamp="1610103283206" />
-    <state width="1413" height="190" key="GridCell.Tab.0.right" timestamp="1610103283206">
+    <state width="1413" height="116" key="GridCell.Tab.0.left/0.0.1920.882@0.0.1920.882" timestamp="1610115710709" />
+    <state width="1413" height="116" key="GridCell.Tab.0.right" timestamp="1610115710709">
       <screen x="0" y="0" width="1920" height="882" />
     </state>
-    <state width="1413" height="190" key="GridCell.Tab.0.right/0.0.1920.882@0.0.1920.882" timestamp="1610103283206" />
+    <state width="1413" height="116" key="GridCell.Tab.0.right/0.0.1920.882@0.0.1920.882" timestamp="1610115710709" />
     <state x="112" y="0" key="SettingsEditor" timestamp="1610095807974">
       <screen x="0" y="0" width="1920" height="882" />
     </state>
@@ -190,9 +209,9 @@
       <screen x="0" y="0" width="1920" height="882" />
     </state>
     <state x="-2" y="0" width="1921" height="882" key="find.popup/0.0.1920.882@0.0.1920.882" timestamp="1610092968514" />
-    <state x="300" y="0" width="838" height="880" key="search.everywhere.popup" timestamp="1610084500286">
+    <state x="300" y="0" width="838" height="880" key="search.everywhere.popup" timestamp="1610113693139">
       <screen x="0" y="0" width="1920" height="882" />
     </state>
-    <state x="300" y="0" width="838" height="880" key="search.everywhere.popup/0.0.1920.882@0.0.1920.882" timestamp="1610084500286" />
+    <state x="300" y="0" width="838" height="880" key="search.everywhere.popup/0.0.1920.882@0.0.1920.882" timestamp="1610113693139" />
   </component>
 </project>
