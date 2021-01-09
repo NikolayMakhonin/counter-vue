@@ -84,7 +84,8 @@
 
 <script lang="ts">
 	import { Options, Vue } from 'vue-class-component'
-	import { timeToString } from '../helpers/helpers'
+	import { timeToString, delay, beep } from '../helpers/helpers'
+	import { noSleep } from '../helpers/noSleep'
 
 	@Options({
 		props: {
@@ -103,6 +104,7 @@
 	})
 	export default class Timer extends Vue {
 		enabled: boolean = true
+
 		_soundEnabled: boolean = false
 		get soundEnabled(): boolean {
 			return this._soundEnabled
@@ -110,17 +112,120 @@
 		set soundEnabled(value: boolean) {
 			this.$emit('update:_soundEnabled', value)
 		}
-		started: boolean = false
-		time: number = 120 * 1000
-		timeRemaining: number = 0
-		interval: number = 5 * 1000
-		intervalRemaining: number = 0
 
 		timeToString = timeToString
+		time = 120 * 1000
+		interval = 2 * 1000
+		timeRemaining = 120 * 1000
+		intervalRemaining = 2 * 1000
+		started = false
+		vibrateEnabled = false
+		blinkEnabled = true
+		isBlink = false
+		onIntervalEnd = false
+		_sound() {
+			if (this.soundEnabled) {
+				beep(100, 440, 80)
+			}
+			if (this.vibrateEnabled && navigator.vibrate) {
+				navigator.vibrate(50)
+			}
+			if (this.blinkEnabled) {
+				var _this = this
+				_this.isBlink = true
+				setTimeout(function() {
+					_this.isBlink = false
+				}, 200)
+			}
+		}
+		sound(count: number) {
+			if (count == null) {
+				count = 1
+			}
 
+			// for(i = 0; i < count; i++) {
+			//  this._sound()
+			//  await delay(100)
+			// }
+
+			const _this = this
+
+			let i = 0
+
+			function _recursive() {
+				if (i < count) {
+					return Promise.resolve().then(function () {
+						_this._sound();
+						return delay(600);
+					}).then(function () {
+						i++;
+						return _recursive();
+					});
+				}
+			}
+
+			return Promise.resolve().then(function () {
+				i = 0;
+				return _recursive();
+			}).then(function () {});
+		}
+		_timer = null
+		_tick(first) {
+			if (this.timeRemaining <= 0) {
+				this.stop()
+				return
+			}
+
+			if (this.intervalRemaining <= 0) {
+				this.intervalRemaining = this.interval
+				this.sound(1)
+				if (!first) {
+					this.onIntervalEnd = false
+					this.onIntervalEnd = true
+				}
+			}
+
+			this.timeRemaining -= 1000
+			this.intervalRemaining -= 1000
+		}
+		start() {
+			this.stop()
+
+			this.timeRemaining = this.time
+			this.intervalRemaining = 0
+
+			this.started = true
+
+			noSleep.enable()
+
+			var _this = this
+			_this._tick(true)
+			this._timer = setInterval(function() {
+				_this._tick(false)
+			}, 1000)
+		}
+		stop() {
+			if (this._timer) {
+				clearInterval(this._timer)
+				this._timer = null
+			}
+
+			if (this.started) {
+				this.sound(3)
+				this.onIntervalEnd = false
+				this.onIntervalEnd = true
+			}
+
+			this.started = false
+
+			noSleep.disable()
+		}
 		startStop() {
-			console.log('startStop')
-			// TODO
+			if (this.started) {
+				this.stop()
+			} else {
+				this.start()
+			}
 		}
 	}
 </script>
