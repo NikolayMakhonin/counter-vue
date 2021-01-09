@@ -93,16 +93,23 @@
 				required: false,
 				default: true,
 			},
-			soundEnabled: {
+			_soundEnabled: {
 				type: Boolean,
 				required: false,
 				default: true,
 			},
-		}
+		},
+		emits: ['update:_soundEnabled'],
 	})
 	export default class Timer extends Vue {
 		enabled: boolean = true
-		soundEnabled: boolean = false
+		_soundEnabled: boolean = false
+		get soundEnabled(): boolean {
+			return this._soundEnabled
+		}
+		set soundEnabled(value: boolean) {
+			this.$emit('update:_soundEnabled', value)
+		}
 		started: boolean = false
 		time: number = 120 * 1000
 		timeRemaining: number = 0
