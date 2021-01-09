@@ -1,0 +1,81 @@
+td {
+	vertical-align: middle;
+}
+
+th {
+	text-align: left;
+}
+
+ul {
+	margin: initial;
+}
+
+a, abbr, acronym, address, applet, area, article, aside, audio, b, base,
+basefont, bdi, bdo, big, blockquote, body, br, button, canvas, caption,
+center, cite, code, col, colgroup, data, datalist, dd, del, details, dfn,
+dialog, dir, div, dl, dt, em, embed, fieldset, figcaption, figure,
+font, footer, form, frame, frameset, h1, h6, head, header, hgroup, hr, html,
+i, iframe, img, input, ins, kbd, keygen, label, legend, li, link, main, map,
+mark, marquee, menu, menuitem, meta, meter, nav, noframes, noscript, object,
+ol, optgroup, option, output, p, param, picture, pre, progress, q, r, rb, rp,
+rt, rtc, ruby, s, samp, script, section, select, slot, small, source, span,
+strike, strong, style, sub, summary, sup, svg, table, tbody, td, template,
+textarea, tfoot, th, thead, time, title, tr, track, tt, u, ul, var, video, wbr,
+
+[type],
+
+*, :before, :after
+{
+	background-repeat: no-repeat;
+	background-position: 50%;
+	background-size: contain;
+	mask-repeat: no-repeat;
+	mask-position: center;
+	mask-size: contain;
+	box-sizing: border-box;
+	vertical-align: middle;
+
+	border: 0 solid #000;
+}
+
+:focus {
+	outline: none;
+}
+
+a {
+	text-decoration: inherit;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-drag: none;
+	-webkit-user-drag: none;
+}
+
+a, :active, :hover, :link, :visited {
+	color: inherit;
+}
+
+td {
+	padding: 0;
+}
+
+table {
+	border-spacing: 0;
+}
+
+select {
+	background-image: none;
+	-webkit-appearance: none;
+}
+
+/*
+button {
+	position: relative;
+	font-size: inherit;
+}
+
+button {
+	white-space: nowrap;
+}
+*/

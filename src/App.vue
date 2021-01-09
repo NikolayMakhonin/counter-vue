@@ -10,3 +10,11 @@
 
 	}
 </script>
+
+<style lang="scss" src="./styles/app/page.scss"></style>
+<style lang="scss">
+	[data-v-app] {
+		pointer-events: auto;
+		touch-action: auto;
+	}
+</style>

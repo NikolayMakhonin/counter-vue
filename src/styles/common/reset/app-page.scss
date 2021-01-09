@@ -1,0 +1,53 @@
+body, html {
+	-webkit-overflow-scrolling: touch;
+	-webkit-text-size-adjust: none;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	overscroll-behavior: none;
+	overflow: hidden;
+	background: transparent;
+}
+
+body {
+	font-family: Roboto,
+		-apple-system,
+		BlinkMacSystemFont,
+		Segoe UI,
+		Oxygen,
+		Ubuntu,
+		Cantarell,
+		Fira Sans,
+		Droid Sans,
+		Helvetica Neue,
+		sans-serif;
+}
+
+html, body {
+	/* Disable zoom */
+	-webkit-text-size-adjust: none;
+	touch-action: none !important; /* pan-x pan-y; */
+}
+
+button, input, label {
+	/* Disable zoom */
+	touch-action: none!important;
+}
+
+html, body {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	overscroll-behavior: none;
+	overflow: hidden;
+	pointer-events: none;
+	touch-action: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}

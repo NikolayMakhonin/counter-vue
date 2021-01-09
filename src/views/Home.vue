@@ -16,7 +16,7 @@
 	export default class Home extends Vue {}
 </script>
 
-<style scoped lang="scss" src="../styles/app/common.scss"></style>
+<style scoped lang="scss" src="../styles/app/app.scss"></style>
 <style scoped lang="scss">
 	button {
 		color: blue;

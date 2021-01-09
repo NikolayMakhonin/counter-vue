@@ -1,0 +1,47 @@
+.icon {
+	position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.icon-block {
+  display: block;
+  width : 1em;
+  height: 1em;
+}
+
+.icon-inline {
+  display: inline-block;
+  width  : 1em;
+  height : 1em;
+
+  vertical-align: middle;
+	font-size     : 100% !important;
+  margin-top    : -0.223em;
+  white-space   : nowrap;
+
+  /* font clear */
+	font-family: Arial;
+	color: transparent;
+	text-transform: none;
+	text-rendering: auto;
+	text-size-adjust: initial;
+	letter-spacing: normal;
+	font-weight: 400;
+	-webkit-box-direction: initial;
+	-webkit-font-smoothing: initial;
+}
+
+.icon-mask {
+  -webkit-mask-position: center center;
+  -webkit-mask-position-x: center;
+  -webkit-mask-position-y: center;
+  mask-position: center center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
