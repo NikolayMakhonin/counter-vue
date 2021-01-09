@@ -15,6 +15,18 @@ npm install -D tailwindcss@npm:@tailwindcss/postcss7-compat @tailwindcss/postcss
 npx tailwindcss init -p
 ```
 
+# Ionic App
+
+https://capacitorjs.com/solution/vue
+```
+npm install @capacitor/core @capacitor/cli
+npx cap init Counter app.counter.com --web-dir=build
+
+npx cap add android
+npx cap add ios
+npx cap add electron
+```
+
 # Add FireBase
 
 ```
