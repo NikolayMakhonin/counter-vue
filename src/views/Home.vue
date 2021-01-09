@@ -1,7 +1,5 @@
 <template>
-	<button>Button Parent</button>
-	<br/>
-	<Timer msg="Welcome to Your Vue.js + TypeScript App"/>
+	<Timer />
 </template>
 
 <script lang="ts">

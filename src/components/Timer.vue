@@ -83,151 +83,330 @@
 </template>
 
 <script lang="ts">
-	import { Options, Vue } from 'vue-class-component'
+	// import { Options, Vue } from 'vue-class-component'
+	import {
+		ref, unref, reactive,
+		computed, watch, watchEffect,
+		onMounted, onUpdated, onUnmounted,
+	} from 'vue'
 	import { timeToString, delay, beep } from '../helpers/helpers'
 	import { noSleep } from '../helpers/noSleep'
+	import {bindProp} from "@/helpers/vue";
 
-	@Options({
+	// setup: https://v3.vuejs.org/api/composition-api.html#setup
+	// watch & computed: https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watching-reactive-objects
+
+	export default {
 		props: {
 			enabled: {
 				type: Boolean,
 				required: false,
 				default: true,
 			},
-			_soundEnabled: {
+			soundEnabled: {
 				type: Boolean,
 				required: false,
 				default: true,
 			},
+			vibrateEnabled: {
+				type: Boolean,
+				required: false,
+				default: false,
+			},
+			blinkEnabled: {
+				type: Boolean,
+				required: false,
+				default: true,
+			},
+			time: {
+				type: Number,
+				required: false,
+				default: 120 * 1000,
+			},
+			interval: {
+				type: Number,
+				required: false,
+				default: 2 * 1000,
+			},
+			timeRemaining: {
+				type: Number,
+				required: false,
+				default: 120 * 1000,
+			},
+			intervalRemaining: {
+				type: Number,
+				required: false,
+				default: 2 * 1000,
+			},
+			started: {
+				type: Boolean,
+				required: false,
+				default: false,
+			},
 		},
-		emits: ['update:_soundEnabled'],
-	})
-	export default class Timer extends Vue {
-		enabled: boolean = true
+		setup(props, context) {
+			const enabled = bindProp(props, context, 'enabled')
+			const soundEnabled = bindProp(props, context, 'soundEnabled')
+			const vibrateEnabled = bindProp(props, context, 'vibrateEnabled')
+			const blinkEnabled = bindProp(props, context, 'blinkEnabled')
+			const time = bindProp(props, context, 'time')
+			const interval = bindProp(props, context, 'interval')
+			const timeRemaining = bindProp(props, context, 'timeRemaining')
+			const intervalRemaining = bindProp(props, context, 'intervalRemaining')
+			const started = bindProp(props, context, 'started')
 
-		_soundEnabled: boolean = false
-		get soundEnabled(): boolean {
-			return this._soundEnabled
-		}
-		set soundEnabled(value: boolean) {
-			this.$emit('update:_soundEnabled', value)
-		}
+			const isBlink = ref(false)
 
-		timeToString = timeToString
-		time = 120 * 1000
-		interval = 2 * 1000
-		timeRemaining = 120 * 1000
-		intervalRemaining = 2 * 1000
-		started = false
-		vibrateEnabled = false
-		blinkEnabled = true
-		isBlink = false
-		onIntervalEnd = false
-		_sound() {
-			if (this.soundEnabled) {
-				beep(100, 440, 80)
-			}
-			if (this.vibrateEnabled && navigator.vibrate) {
-				navigator.vibrate(50)
-			}
-			if (this.blinkEnabled) {
-				var _this = this
-				_this.isBlink = true
-				setTimeout(function() {
-					_this.isBlink = false
-				}, 200)
-			}
-		}
-		sound(count: number) {
-			if (count == null) {
-				count = 1
-			}
-
-			// for(i = 0; i < count; i++) {
-			//  this._sound()
-			//  await delay(100)
-			// }
-
-			const _this = this
-
-			let i = 0
-
-			function _recursive() {
-				if (i < count) {
-					return Promise.resolve().then(function () {
-						_this._sound();
-						return delay(600);
-					}).then(function () {
-						i++;
-						return _recursive();
-					});
+			function _sound() {
+				if (unref(soundEnabled)) {
+					beep(100, 440, 80)
+				}
+				if (unref(vibrateEnabled) && navigator.vibrate) {
+					navigator.vibrate(50)
+				}
+				if (unref(blinkEnabled)) {
+					isBlink.value = true
+					setTimeout(function() {
+						isBlink.value = false
+					}, 200)
 				}
 			}
 
-			return Promise.resolve().then(function () {
-				i = 0;
-				return _recursive();
-			}).then(function () {});
-		}
-		_timer = null
-		_tick(first) {
-			if (this.timeRemaining <= 0) {
-				this.stop()
-				return
-			}
+			async function sound(count: number) {
+				if (count == null) {
+					count = 1
+				}
 
-			if (this.intervalRemaining <= 0) {
-				this.intervalRemaining = this.interval
-				this.sound(1)
-				if (!first) {
-					this.onIntervalEnd = false
-					this.onIntervalEnd = true
+				for(let i = 0; i < count; i++) {
+					_sound()
+					await delay(600)
 				}
 			}
 
-			this.timeRemaining -= 1000
-			this.intervalRemaining -= 1000
-		}
-		start() {
-			this.stop()
+			let _timer = null
 
-			this.timeRemaining = this.time
-			this.intervalRemaining = 0
+			function _tick(first) {
+				if (unref(timeRemaining) <= 0) {
+					stop()
+					return
+				}
 
-			this.started = true
+				if (unref(intervalRemaining) <= 0) {
+					intervalRemaining.value = unref(interval)
+					sound(1)
+					if (!first) {
+						context.emit('interval-end', null)
+					}
+				}
 
-			noSleep.enable()
-
-			var _this = this
-			_this._tick(true)
-			this._timer = setInterval(function() {
-				_this._tick(false)
-			}, 1000)
-		}
-		stop() {
-			if (this._timer) {
-				clearInterval(this._timer)
-				this._timer = null
+				timeRemaining.value -= 1000
+				intervalRemaining.value -= 1000
 			}
 
-			if (this.started) {
-				this.sound(3)
-				this.onIntervalEnd = false
-				this.onIntervalEnd = true
+			function start() {
+				stop()
+
+				timeRemaining.value = unref(time)
+				intervalRemaining.value = 0
+
+				started.value = true
+
+				noSleep.enable()
+
+				_tick(true)
+				_timer = setInterval(function() {
+					_tick(false)
+				}, 1000)
 			}
 
-			this.started = false
+			function stop() {
+				if (_timer) {
+					clearInterval(_timer)
+					_timer = null
+				}
 
-			noSleep.disable()
-		}
-		startStop() {
-			if (this.started) {
-				this.stop()
-			} else {
-				this.start()
+				if (unref(started)) {
+					sound(3)
+					context.emit('interval-end', null)
+				}
+
+				started.value = false
+
+				noSleep.disable()
+			}
+
+			function startStop() {
+				if (unref(started)) {
+					stop()
+				} else {
+					start()
+				}
+			}
+
+			onUnmounted(() => {
+				stop()
+			})
+
+			return {
+				enabled,
+				soundEnabled,
+				vibrateEnabled,
+				blinkEnabled,
+
+				time,
+				interval,
+				timeRemaining,
+				intervalRemaining,
+				started,
+				isBlink,
+
+				startStop,
+				timeToString,
 			}
 		}
 	}
+
+	// @Options({
+	// 	props: {
+	// 		enabled: {
+	// 			type: Boolean,
+	// 			required: false,
+	// 			default: true,
+	// 		},
+	// 		_soundEnabled: {
+	// 			type: Boolean,
+	// 			required: false,
+	// 			default: true,
+	// 		},
+	// 	},
+	// 	emits: ['update:_soundEnabled'],
+	// })
+	// export class Timer extends Vue {
+	// 	enabled: boolean = true
+	//
+	// 	_soundEnabled: boolean = false
+	// 	get soundEnabled(): boolean {
+	// 		return this._soundEnabled
+	// 	}
+	// 	set soundEnabled(value: boolean) {
+	// 		this.$emit('update:_soundEnabled', value)
+	// 	}
+	//
+	// 	timeToString = timeToString
+	// 	time = 120 * 1000
+	// 	interval = 2 * 1000
+	// 	timeRemaining = 120 * 1000
+	// 	intervalRemaining = 2 * 1000
+	// 	started = false
+	// 	vibrateEnabled = false
+	// 	blinkEnabled = true
+	// 	isBlink = false
+	// 	onIntervalEnd = false
+	// 	_sound() {
+	// 		if (this.soundEnabled) {
+	// 			beep(100, 440, 80)
+	// 		}
+	// 		if (this.vibrateEnabled && navigator.vibrate) {
+	// 			navigator.vibrate(50)
+	// 		}
+	// 		if (this.blinkEnabled) {
+	// 			var _this = this
+	// 			_this.isBlink = true
+	// 			setTimeout(function() {
+	// 				_this.isBlink = false
+	// 			}, 200)
+	// 		}
+	// 	}
+	// 	sound(count: number) {
+	// 		if (count == null) {
+	// 			count = 1
+	// 		}
+	//
+	// 		// for(i = 0; i < count; i++) {
+	// 		//  this._sound()
+	// 		//  await delay(100)
+	// 		// }
+	//
+	// 		const _this = this
+	//
+	// 		let i = 0
+	//
+	// 		function _recursive() {
+	// 			if (i < count) {
+	// 				return Promise.resolve().then(function () {
+	// 					_this._sound();
+	// 					return delay(600);
+	// 				}).then(function () {
+	// 					i++;
+	// 					return _recursive();
+	// 				});
+	// 			}
+	// 		}
+	//
+	// 		return Promise.resolve().then(function () {
+	// 			i = 0;
+	// 			return _recursive();
+	// 		}).then(function () {});
+	// 	}
+	// 	_timer = null
+	// 	_tick(first) {
+	// 		if (this.timeRemaining <= 0) {
+	// 			this.stop()
+	// 			return
+	// 		}
+	//
+	// 		if (this.intervalRemaining <= 0) {
+	// 			this.intervalRemaining = this.interval
+	// 			this.sound(1)
+	// 			if (!first) {
+	// 				this.onIntervalEnd = false
+	// 				this.onIntervalEnd = true
+	// 			}
+	// 		}
+	//
+	// 		this.timeRemaining -= 1000
+	// 		this.intervalRemaining -= 1000
+	// 	}
+	// 	start() {
+	// 		this.stop()
+	//
+	// 		this.timeRemaining = this.time
+	// 		this.intervalRemaining = 0
+	//
+	// 		this.started = true
+	//
+	// 		noSleep.enable()
+	//
+	// 		var _this = this
+	// 		_this._tick(true)
+	// 		this._timer = setInterval(function() {
+	// 			_this._tick(false)
+	// 		}, 1000)
+	// 	}
+	// 	stop() {
+	// 		if (this._timer) {
+	// 			clearInterval(this._timer)
+	// 			this._timer = null
+	// 		}
+	//
+	// 		if (this.started) {
+	// 			this.sound(3)
+	// 			this.onIntervalEnd = false
+	// 			this.onIntervalEnd = true
+	// 		}
+	//
+	// 		this.started = false
+	//
+	// 		noSleep.disable()
+	// 	}
+	// 	startStop() {
+	// 		if (this.started) {
+	// 			this.stop()
+	// 		} else {
+	// 			this.start()
+	// 		}
+	// 	}
+	// }
 </script>
 
 <style scoped lang="scss" src="../styles/app/app.scss"></style>
